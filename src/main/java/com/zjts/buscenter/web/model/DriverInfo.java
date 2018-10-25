@@ -30,7 +30,7 @@ public class DriverInfo extends Model<DriverInfo> {
      * 员工号
      */
 	@TableField("employee_id")
-	private String employeeId;
+	private Integer employeeId;
     /**
      * 姓名
      */
@@ -93,7 +93,26 @@ public class DriverInfo extends Model<DriverInfo> {
      */
 	@TableField("complaint_count")
 	private Integer complaintCount;
+	/**
+	 * 驾驶员状态,1表示被禁用
+	 */
+	private Integer status;
 
+	public Integer getSex() {
+		return sex;
+	}
+
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
 	public Integer getId() {
 		return id;
@@ -104,11 +123,11 @@ public class DriverInfo extends Model<DriverInfo> {
 		return this;
 	}
 
-	public String getEmployeeId() {
+	public Integer getEmployeeId() {
 		return employeeId;
 	}
 
-	public DriverInfo setEmployeeId(String employeeId) {
+	public DriverInfo setEmployeeId(Integer employeeId) {
 		this.employeeId = employeeId;
 		return this;
 	}
@@ -122,14 +141,6 @@ public class DriverInfo extends Model<DriverInfo> {
 		return this;
 	}
 
-	public Integer isSex() {
-		return sex;
-	}
-
-	public DriverInfo setSex(Integer sex) {
-		this.sex = sex;
-		return this;
-	}
 
 	public Integer getAge() {
 		return age;
