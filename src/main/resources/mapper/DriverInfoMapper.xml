@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjts.buscenter.web.dao.DriverInfoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.zjts.buscenter.web.model.DriverInfo">
+		<id column="id" property="id" />
+		<result column="employee_id" property="employeeId" />
+		<result column="name" property="name" />
+		<result column="sex" property="sex" />
+		<result column="age" property="age" />
+		<result column="idcard" property="idcard" />
+		<result column="telephone" property="telephone" />
+		<result column="Company_id" property="CompanyId" />
+		<result column="address" property="address" />
+		<result column="photo_path" property="photoPath" />
+		<result column="remark" property="remark" />
+		<result column="incharge_line" property="inchargeLine" />
+		<result column="created_time" property="createdTime" />
+		<result column="modified_time" property="modifiedTime" />
+		<result column="grade" property="grade" />
+		<result column="complaint_count" property="complaintCount" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, employee_id AS employeeId, name, sex, age, idcard, telephone, Company_id AS CompanyId, address, photo_path AS photoPath, remark, incharge_line AS inchargeLine, created_time AS createdTime, modified_time AS modifiedTime, grade, complaint_count AS complaintCount
+    </sql>
+
+</mapper>
