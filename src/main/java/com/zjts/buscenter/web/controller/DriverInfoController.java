@@ -11,8 +11,10 @@ import com.zjts.buscenter.common.model.req.DriverInfoReq;
 import com.zjts.buscenter.common.model.req.group.AddDriverBasic;
 import com.zjts.buscenter.util.BeanUtil;
 import com.zjts.buscenter.web.model.DriverInfo;
+import com.zjts.buscenter.web.model.DriverLicense;
 import com.zjts.buscenter.web.model.PageHelper;
 import com.zjts.buscenter.web.service.IDriverInfoService;
+import com.zjts.buscenter.web.service.IDriverLicenseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -49,6 +51,8 @@ public class DriverInfoController extends BaseController {
 
     @Autowired
     private IDriverInfoService driverInfoService;
+    @Autowired
+    private IDriverLicenseService driverLicenseService;
 
     @ApiOperation("新增驾驶员信息")
     @PostMapping("/saveDriverInfo")
@@ -58,12 +62,10 @@ public class DriverInfoController extends BaseController {
                 parameterVerification(result);
         try {
             DriverInfo driverInfo = new DriverInfo();
-            DateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             driverInfo.setCreatedTime(new Date());
             driverInfo.setModifiedTime(new Date());
             BeanUtils.copyProperties(driverInfoReq,driverInfo);
-            System.out.println(driverInfo.toString());
-            System.out.flush();
+
             boolean a = driverInfoService.insert(driverInfo);
             if(a)
                 return APIResponse.success();
@@ -85,7 +87,8 @@ public class DriverInfoController extends BaseController {
             driver.setEmployeeId(employeeId);
             driver.setStatus(1);
             boolean flag =    driverInfoService
-                 .update(driver, new EntityWrapper<DriverInfo>().eq("employee_id", employeeId));
+                    .update(driver, new EntityWrapper<DriverInfo>().eq("employee_id", employeeId));
+
             if(flag)
                 return APIResponse.success();
 
@@ -103,9 +106,14 @@ public class DriverInfoController extends BaseController {
     public APIResponse deleteDriverInfo(
             @RequestBody @ApiParam(name = "employeeId",value = "员工号") Integer employeeId){
         try{
+            boolean flag1 = driverLicenseService
+                    .delete(new EntityWrapper<DriverLicense>().eq("employee_id",employeeId));
             boolean flag = driverInfoService
                     .delete(new EntityWrapper<DriverInfo>().eq("employee_id",employeeId));
-            if(flag)
+            System.out.println("缺少照片的删除功能");
+            System.out.println("缺少体检信息的删除功能");
+            System.out.flush();
+            if(flag && flag1)
                 return APIResponse.success();
         }catch (Exception e){
             logger.error("出现异常 : "+e.getMessage());
@@ -126,7 +134,9 @@ public class DriverInfoController extends BaseController {
             DriverInfo driver = new DriverInfo();
             BeanUtils.copyProperties(driverInfoReq,driver);
             boolean flag = driverInfoService
-                    .update(driver,new EntityWrapper<DriverInfo>().eq("employee_id",driver.getEmployeeId()));
+                    //  update set .......from  DriverInfo where employee_id =
+                    .update(driver,new EntityWrapper<DriverInfo>()
+                            .eq("employee_id",driver.getEmployeeId()));
             if(flag)
                 return APIResponse.success();
         }catch (Exception e){
@@ -137,15 +147,15 @@ public class DriverInfoController extends BaseController {
         return APIResponse.error(CodeEnum.ERROR,"修改失败,请稍后再试!");
     }
 
-    @ApiOperation("查询单条驾驶员信息")
+    @ApiOperation("查询单条驾驶员信息,支持通过人名进行模糊查询       ")
     @PostMapping("/findOneDriverInfo")
     public APIResponse findOneDriverInfo(
             @RequestBody DriverInfoReq driverInfoReq){
         try {
             DriverInfo driverInfo = new DriverInfo();
             BeanUtils.copyProperties(driverInfoReq,driverInfo);
-            Wrapper wrapper = new EntityWrapper<DriverInfo>(driverInfo);
-            DriverInfo driverInfo1 =  driverInfoService.selectOne(wrapper);
+            Wrapper wrapper = new EntityWrapper<DriverInfo>();
+            DriverInfo driverInfo1 =  driverInfoService.selectOne(wrapper.like("name",driverInfo.getName()));
             if(driverInfo1 !=null )
                 return APIResponse.success(driverInfo1);
         }catch (Exception e){
@@ -157,12 +167,14 @@ public class DriverInfoController extends BaseController {
         return APIResponse.error(CodeEnum.FIND_NULL_ERROR);
     }
 
-    @ApiOperation(value = "分页显示全部驾驶员信息",notes = "curretn为当前页,size为")
+    @ApiOperation(value = "分页显示全部驾驶员信息")
     @PostMapping("/findDriverInfoByPage")
     public APIResponse findDriverInfoByPage(
             @RequestBody PageHelper pageHelper){
         try{
-          Page  page1 =  driverInfoService.selectPage(new Page<DriverInfo>(pageHelper.getCurrentPage(),pageHelper.getPageSize()),new EntityWrapper<DriverInfo>());
+          Page  page1 =  driverInfoService.selectPage(
+                  new Page<DriverInfo>(pageHelper.getCurrentPage(),pageHelper.getPageSize()),
+                  new EntityWrapper<DriverInfo>());
           List list =page1.getRecords();
           if(list.size()>0)
           return APIResponse.success(list);
@@ -173,5 +185,43 @@ public class DriverInfoController extends BaseController {
         }
         return APIResponse.error(CodeEnum.FIND_NULL_ERROR);
     }
-
+    @ApiOperation(value = "批量删除驾驶员信息")
+    @PostMapping("/deleteDriverInfos")
+    public APIResponse deleteDriverInfos(
+            @RequestBody @ApiParam(name = "list<employeeid>",value = "要删除的员工号的list集合",example = "[1001,1002,1003,1004]")
+                    List<Integer> list){
+        try{
+            for (Integer I:list) {
+                System.out.println(I);
+                System.out.flush();
+            }
+            boolean flag1 = driverLicenseService.delete(new EntityWrapper<DriverLicense>().in("employee_id",list));
+            boolean flag  = driverInfoService.delete(new EntityWrapper<DriverInfo>().in("employee_id",list));
+            if(flag && flag1)
+                return APIResponse.success();
+        }catch (Exception e){
+            logger.error("出现异常 : "+e.getMessage());
+            e.printStackTrace();
+            return APIResponse.error(CodeEnum.ERROR,"查询失败,请稍后再试!");
+        }
+        return APIResponse.error(CodeEnum.FIND_NULL_ERROR);
+    }
+    @ApiOperation(value = "批量禁用驾驶员")
+    @PostMapping("/forbideDriverInfos")
+    public APIResponse forbideDriverInfos(
+            @RequestBody @ApiParam(name = "list<employeeid>",value = "要禁用的员工号的list集合",example = "[1001,1002,1003,1004]")
+                    List<Integer> list){
+        try{
+            DriverInfo driver = new DriverInfo();
+            driver.setStatus(1);
+            boolean flag  = driverInfoService.update(driver,new EntityWrapper<DriverInfo>().in("employee_id",list));
+            if(flag)
+                return APIResponse.success();
+        }catch (Exception e){
+            logger.error("出现异常 : "+e.getMessage());
+            e.printStackTrace();
+            return APIResponse.error(CodeEnum.ERROR,"查询失败,请稍后再试!");
+        }
+        return APIResponse.error(CodeEnum.FIND_NULL_ERROR);
+    }
 }

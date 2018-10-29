@@ -30,7 +30,7 @@ public class Swagger2Config {
         return new ApiInfoBuilder()
                 .title("公交处后台接口")
                 .description("公交处后台API")
-                .version("0.0")
+                .version("2.0")
                 .build();
     }
 }

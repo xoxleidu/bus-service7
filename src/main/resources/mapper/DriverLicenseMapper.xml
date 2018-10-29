@@ -10,14 +10,14 @@
 		<result column="license_age" property="licenseAge" />
 		<result column="license_type" property="licenseType" />
 		<result column="remarks" property="remarks" />
-		<result column="license_record_id" property="licenseRecordId" />
+		<result column="license_id" property="licenseId" />
 		<result column="modified_time" property="modifiedTime" />
 		<result column="license_point" property="licensePoint" />
 	</resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, employee_id AS employeeId, license_expirydate AS licenseExpirydate, license_age AS licenseAge, license_type AS licenseType, remarks, license_record_id AS licenseRecordId, modified_time AS modifiedTime, license_point AS licensePoint
+        id, employee_id AS employeeId, license_expirydate AS licenseExpirydate, license_age AS licenseAge, license_type AS licenseType, remarks, license_id AS licenseId, modified_time AS modifiedTime, license_point AS licensePoint
     </sql>
 
 </mapper>

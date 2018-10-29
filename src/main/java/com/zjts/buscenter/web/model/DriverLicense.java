@@ -31,11 +31,12 @@ public class DriverLicense extends Model<DriverLicense> {
      */
 	@TableField("employee_id")
 	private Integer employeeId;
+
     /**
      * 驾驶证下次年检时间
      */
 	@TableField("license_expirydate")
-	private Integer licenseExpirydate;
+	private Date licenseExpirydate;
     /**
      * 驾龄
      */
@@ -53,8 +54,8 @@ public class DriverLicense extends Model<DriverLicense> {
     /**
      * 驾驶证档案编号
      */
-	@TableField("license_record_id")
-	private String licenseRecordId;
+	@TableField("license_id")
+	private String licenseId;
     /**
      * 修改时间
      */
@@ -66,86 +67,76 @@ public class DriverLicense extends Model<DriverLicense> {
 	@TableField("license_point")
 	private Integer licensePoint;
 
-
 	public Integer getId() {
 		return id;
 	}
 
-	public DriverLicense setId(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
-		return this;
 	}
 
 	public Integer getEmployeeId() {
 		return employeeId;
 	}
 
-	public DriverLicense setEmployeeId(Integer employeeId) {
+	public void setEmployeeId(Integer employeeId) {
 		this.employeeId = employeeId;
-		return this;
 	}
 
-	public Integer getLicenseExpirydate() {
+	public Date getLicenseExpirydate() {
 		return licenseExpirydate;
 	}
 
-	public DriverLicense setLicenseExpirydate(Integer licenseExpirydate) {
+	public void setLicenseExpirydate(Date licenseExpirydate) {
 		this.licenseExpirydate = licenseExpirydate;
-		return this;
 	}
 
 	public Integer getLicenseAge() {
 		return licenseAge;
 	}
 
-	public DriverLicense setLicenseAge(Integer licenseAge) {
+	public void setLicenseAge(Integer licenseAge) {
 		this.licenseAge = licenseAge;
-		return this;
 	}
 
 	public String getLicenseType() {
 		return licenseType;
 	}
 
-	public DriverLicense setLicenseType(String licenseType) {
+	public void setLicenseType(String licenseType) {
 		this.licenseType = licenseType;
-		return this;
 	}
 
 	public String getRemarks() {
 		return remarks;
 	}
 
-	public DriverLicense setRemarks(String remarks) {
+	public void setRemarks(String remarks) {
 		this.remarks = remarks;
-		return this;
 	}
 
-	public String getLicenseRecordId() {
-		return licenseRecordId;
+	public String getLicenseId() {
+		return licenseId;
 	}
 
-	public DriverLicense setLicenseRecordId(String licenseRecordId) {
-		this.licenseRecordId = licenseRecordId;
-		return this;
+	public void setLicenseId(String licenseId) {
+		this.licenseId = licenseId;
 	}
 
 	public Date getModifiedTime() {
 		return modifiedTime;
 	}
 
-	public DriverLicense setModifiedTime(Date modifiedTime) {
+	public void setModifiedTime(Date modifiedTime) {
 		this.modifiedTime = modifiedTime;
-		return this;
 	}
 
 	public Integer getLicensePoint() {
 		return licensePoint;
 	}
 
-	public DriverLicense setLicensePoint(Integer licensePoint) {
+	public void setLicensePoint(Integer licensePoint) {
 		this.licensePoint = licensePoint;
-		return this;
 	}
 
 	@Override

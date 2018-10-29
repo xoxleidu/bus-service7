@@ -1,6 +1,10 @@
 package com.zjts.buscenter.web.model;
 
-public class PageHelper {
+import com.baomidou.mybatisplus.plugins.Page;
+
+public class PageHelper  {
+
+    private static final long serialVersionUID = 1L;
 
     private Integer currentPage;
 

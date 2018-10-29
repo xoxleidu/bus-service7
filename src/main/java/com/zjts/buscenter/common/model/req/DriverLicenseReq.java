@@ -1,11 +1,12 @@
 package com.zjts.buscenter.common.model.req;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.zjts.buscenter.common.model.req.group.AddDriverDetails;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+import java.util.Date;
 
 /**
  * <p>
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
  * @author han zq
  * @since 2018-10-24
  */
+
 public class DriverLicenseReq {
 
     private static final long serialVersionUID = 1L;
@@ -22,106 +24,107 @@ public class DriverLicenseReq {
     /**
      * 员工号
      */
-	@NotEmpty(groups = {AddDriverDetails.class},message = "员工号不能为空")
+	@NotNull(message = "员工号不能为空")
+	@ApiModelProperty(value = "员工号",example = "1001",required = true)
 	private Integer employeeId;
+
     /**
-     * 驾驶证有效期
-     */
-	@NotNull(groups = {AddDriverDetails.class},message = "驾驶证有效期不能为空")
-	@Max(value = 42,message = "有效期参数不符")
-	private Integer licenseExpirydate;
-    /**
-     * 所属公司
-     */
-	@NotNull(groups = {AddDriverDetails.class},message = "所属公司不能为空")
-	private Integer CompanyId;
-    /**
+	 * 驾驶证有效期
+	 */
+	@NotNull(message = "驾驶证有效期不能为空")
+	@Future(message = "日期格式不对")
+	@ApiModelProperty(value = "驾驶证有效期",example = "2020-10-25")
+	private Date licenseExpirydate;
+
+
+	/**
      * 驾龄
      */
-	@NotNull(groups = {AddDriverDetails.class},message = "驾龄不能为空")
+	@NotNull(message = "驾龄不能为空")
 	@Max(value = 42,message = "驾龄参数不符")
+	@ApiModelProperty(value = "驾龄",example = "15")
 	private Integer licenseAge;
     /**
      * 驾驶证类型
      */
 	@Length(max = 2,message = "驾照类型不符")
-	@NotEmpty(groups = {AddDriverDetails.class},message = "驾驶证类型不能为空")
+	@NotEmpty(message = "驾驶证类型不能为空")
+	@ApiModelProperty(value = "驾驶证类型",example = "A1")
 	private String licenseType;
 
-    /**
-     * 受到投诉次数
-     */
-	private Integer complaintCount;
-    /**
-     * 评级分数
-     */
-	private Integer grade;
-
-
+	/**
+	 * 驾驶证分数
+	 */
+	@NotNull
+	@Max(12)
+	@Min(1)
+	@ApiModelProperty(value = "驾驶证分数",example = "12")
+	private Integer licensePoint;
+	/**
+	 * 备注
+	 */
+	@ApiModelProperty(value = "备注信息",example = "测试数据")
+	private String remarks;
+	/**
+	 * 驾驶证档案编号
+	 */
+	@NotNull
+	@ApiModelProperty(value = "驾驶证档案编号",example = "402578957854")
+	private String licenseId;
 
 	public Integer getEmployeeId() {
 		return employeeId;
 	}
 
-	public DriverLicenseReq setEmployeeId(Integer employeeId) {
+	public void setEmployeeId(Integer employeeId) {
 		this.employeeId = employeeId;
-		return this;
 	}
 
-	public Integer getLicenseExpirydate() {
+	public Date getLicenseExpirydate() {
 		return licenseExpirydate;
 	}
 
-	public DriverLicenseReq setLicenseExpirydate(Integer licenseExpirydate) {
+	public void setLicenseExpirydate(Date licenseExpirydate) {
 		this.licenseExpirydate = licenseExpirydate;
-		return this;
-	}
-
-	public Integer getCompanyId() {
-		return CompanyId;
-	}
-
-	public DriverLicenseReq setCompanyId(Integer CompanyId) {
-		this.CompanyId = CompanyId;
-		return this;
 	}
 
 	public Integer getLicenseAge() {
 		return licenseAge;
 	}
 
-	public DriverLicenseReq setLicenseAge(Integer licenseAge) {
+	public void setLicenseAge(Integer licenseAge) {
 		this.licenseAge = licenseAge;
-		return this;
 	}
 
 	public String getLicenseType() {
 		return licenseType;
 	}
 
-	public DriverLicenseReq setLicenseType(String licenseType) {
+	public void setLicenseType(String licenseType) {
 		this.licenseType = licenseType;
-		return this;
 	}
 
-	public Integer getComplaintCount() {
-		return complaintCount;
+	public Integer getLicensePoint() {
+		return licensePoint;
 	}
 
-	public DriverLicenseReq setComplaintCount(Integer complaintCount) {
-		this.complaintCount = complaintCount;
-		return this;
+	public void setLicensePoint(Integer licensePoint) {
+		this.licensePoint = licensePoint;
 	}
 
-	public Integer getGrade() {
-		return grade;
+	public String getRemarks() {
+		return remarks;
 	}
 
-	public DriverLicenseReq setGrade(Integer grade) {
-		this.grade = grade;
-		return this;
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
+	public String getLicenseId() {
+		return licenseId;
+	}
 
-
+	public void setLicenseId(String licenseId) {
+		this.licenseId = licenseId;
+	}
 }
