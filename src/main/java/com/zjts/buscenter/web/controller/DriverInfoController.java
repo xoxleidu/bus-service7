@@ -106,14 +106,14 @@ public class DriverInfoController extends BaseController {
     public APIResponse deleteDriverInfo(
             @RequestBody @ApiParam(name = "employeeId",value = "员工号") Integer employeeId){
         try{
-            boolean flag1 = driverLicenseService
-                    .delete(new EntityWrapper<DriverLicense>().eq("employee_id",employeeId));
+//            boolean flag1 = driverLicenseService
+//                    .delete(new EntityWrapper<DriverLicense>().eq("employee_id",employeeId));
             boolean flag = driverInfoService
                     .delete(new EntityWrapper<DriverInfo>().eq("employee_id",employeeId));
             System.out.println("缺少照片的删除功能");
             System.out.println("缺少体检信息的删除功能");
             System.out.flush();
-            if(flag && flag1)
+            if(flag)
                 return APIResponse.success();
         }catch (Exception e){
             logger.error("出现异常 : "+e.getMessage());
@@ -195,9 +195,9 @@ public class DriverInfoController extends BaseController {
                 System.out.println(I);
                 System.out.flush();
             }
-            boolean flag1 = driverLicenseService.delete(new EntityWrapper<DriverLicense>().in("employee_id",list));
+           // boolean flag1 = driverLicenseService.delete(new EntityWrapper<DriverLicense>().in("employee_id",list));
             boolean flag  = driverInfoService.delete(new EntityWrapper<DriverInfo>().in("employee_id",list));
-            if(flag && flag1)
+            if(flag)
                 return APIResponse.success();
         }catch (Exception e){
             logger.error("出现异常 : "+e.getMessage());
