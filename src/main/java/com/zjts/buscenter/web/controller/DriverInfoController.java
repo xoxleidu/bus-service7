@@ -86,7 +86,7 @@ public class DriverInfoController extends BaseController {
             DriverInfo driver = new DriverInfo();
             driver.setEmployeeId(employeeId);
             driver.setStatus(1);
-            boolean flag =    driverInfoService
+            boolean flag = driverInfoService
                     .update(driver, new EntityWrapper<DriverInfo>().eq("employee_id", employeeId));
 
             if(flag)
@@ -134,7 +134,6 @@ public class DriverInfoController extends BaseController {
             DriverInfo driver = new DriverInfo();
             BeanUtils.copyProperties(driverInfoReq,driver);
             boolean flag = driverInfoService
-                    //  update set .......from  DriverInfo where employee_id =
                     .update(driver,new EntityWrapper<DriverInfo>()
                             .eq("employee_id",driver.getEmployeeId()));
             if(flag)
@@ -177,7 +176,7 @@ public class DriverInfoController extends BaseController {
                   new EntityWrapper<DriverInfo>());
           List list =page1.getRecords();
           if(list.size()>0)
-          return APIResponse.success(list);
+          return APIResponse.success(page1);
         }catch (Exception e){
             logger.error("出现异常 : "+e.getMessage());
             e.printStackTrace();
