@@ -147,7 +147,7 @@ public class DriverInfoController extends BaseController {
         return APIResponse.error(CodeEnum.ERROR,"修改失败,请稍后再试!");
     }
 
-    @ApiOperation("查询单条驾驶员信息,支持通过人名进行模糊查询       ")
+    @ApiOperation("查询单条驾驶员信息,支持通过人名进行模糊查询,通过各种信息查询")
     @PostMapping("/findOneDriverInfo")
     public APIResponse findOneDriverInfo(
             @RequestBody DriverInfoReq driverInfoReq){
