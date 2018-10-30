@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjts.buscenter.web.dao.DriverHealthMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.zjts.buscenter.web.model.DriverHealth">
+		<id column="id" property="id" />
+		<result column="employee_id" property="employeeId" />
+		<result column="name" property="name" />
+		<result column="record_id" property="recordId" />
+		<result column="height" property="height" />
+		<result column="left_vision" property="leftVision" />
+		<result column="right_vision" property="rightVision" />
+		<result column="color_blindness" property="colorBlindness" />
+		<result column="left_cisualcorrection" property="leftCisualcorrection" />
+		<result column="right_cisualcorrection" property="rightCisualcorrection" />
+		<result column="dyskinesia" property="dyskinesia" />
+		<result column="left_earhearing" property="leftEarhearing" />
+		<result column="right_earhearing" property="rightEarhearing" />
+		<result column="upperlimb_condition" property="upperlimbCondition" />
+		<result column="lowerlimb_condition" property="lowerlimbCondition" />
+		<result column="independy_sit" property="independySit" />
+		<result column="disease_remark" property="diseaseRemark" />
+		<result column="modified_time" property="modifiedTime" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, employee_id AS employeeId, name, record_id AS recordId, height, left_vision AS leftVision, right_vision AS rightVision, color_blindness AS colorBlindness, left_cisualcorrection AS leftCisualcorrection, right_cisualcorrection AS rightCisualcorrection, dyskinesia, left_earhearing AS leftEarhearing, right_earhearing AS rightEarhearing, upperlimb_condition AS upperlimbCondition, lowerlimb_condition AS lowerlimbCondition, independy_sit AS independySit, disease_remark AS diseaseRemark,modified_time AS modifiedTime
+    </sql>
+
+</mapper>
