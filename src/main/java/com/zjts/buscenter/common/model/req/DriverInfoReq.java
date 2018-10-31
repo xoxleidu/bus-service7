@@ -1,7 +1,7 @@
 package com.zjts.buscenter.common.model.req;
 
 
-import com.zjts.buscenter.common.model.req.group.AddDriverBasic;
+import com.zjts.buscenter.common.model.req.group.DeleteDriverInfo;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.Max;
@@ -17,16 +17,30 @@ import javax.validation.constraints.Pattern;
  * @author han zq
  * @since 2018-10-24
  */
-public class DriverInfoReq {
+public class DriverInfoReq extends  BaseModel {
 
-    private static final long serialVersionUID = 1L;
 
-    /**
+	/**
+	 * 序号
+	 */
+	@NotNull(groups={DeleteDriverInfo.class})
+	@ApiModelProperty(value = "员工id")
+	private Integer id;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
      * 员工号
      */
 	@NotNull(message = "员工号不能为空")
 	@ApiModelProperty(value = "员工号",example = "1001",required = true)
-	private Integer employeeId;
+	private String employeeId;
     /**
      * 姓名
      */
@@ -58,7 +72,7 @@ public class DriverInfoReq {
      * 电话号
      */
 	@NotEmpty(message = "手机号码不能为空")
-	@Pattern(groups = {AddDriverBasic.class},regexp = "^1(3|4|5|7|8|9)\\d{9}$",message = "手机号码格式错误")
+	@Pattern(groups = {DeleteDriverInfo.class},regexp = "^1(3|4|5|7|8|9)\\d{9}$",message = "手机号码格式错误")
 	@ApiModelProperty(value = "电话号",example = "13185471256")
 	private String telephone;
     /**
@@ -96,9 +110,37 @@ public class DriverInfoReq {
 	/**
 	 * 照片路径
 	 */
+	@NotEmpty(message = "照片路径不能为空")
 	@ApiModelProperty(value = "照片路径",example = "201-10-18-wsdassda.jpg")
 	private String photoPath;
+	/**
+	 * 驾驶证路径
+	 */
+	@NotEmpty(message = "照片路径不能为空")
+	@ApiModelProperty(value = "驾驶证路径",example = "201-10-18-wsdassda.jpg")
+	private String licensePath;
+	/**
+	 * 体检信息路径
+	 */
+	@NotEmpty(message = "体检信息不能为空")
+	@ApiModelProperty(value = "体检信息路径",example = "201-10-18-wsdassda.jpg")
+	private String healthPath;
 
+	public String getLicensePath() {
+		return licensePath;
+	}
+
+	public void setLicensePath(String licensePath) {
+		this.licensePath = licensePath;
+	}
+
+	public String getHealthPath() {
+		return healthPath;
+	}
+
+	public void setHealthPath(String healthPath) {
+		this.healthPath = healthPath;
+	}
 
 	public String getPhotoPath() {
 		return photoPath;
@@ -108,11 +150,11 @@ public class DriverInfoReq {
 		this.photoPath = photoPath;
 	}
 
-	public Integer getEmployeeId() {
+	public String getEmployeeId() {
 		return employeeId;
 	}
 
-	public void setEmployeeId(Integer employeeId) {
+	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 	}
 

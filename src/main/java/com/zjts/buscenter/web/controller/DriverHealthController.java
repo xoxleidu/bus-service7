@@ -6,7 +6,7 @@ package com.zjts.buscenter.web.controller;//package com.zjts.buscenter.web.contr
 //import com.zjts.buscenter.common.model.req.DriverHealthReq;
 //import com.zjts.buscenter.common.model.req.DriverInfoReq;
 //import com.zjts.buscenter.common.model.req.DriverLicenseReq;
-//import com.zjts.buscenter.common.model.req.group.AddDriverBasic;
+//import com.zjts.buscenter.common.model.req.group.DeleteDriverInfo;
 //import com.zjts.buscenter.web.model.DriverHealth;
 //import com.zjts.buscenter.web.model.DriverInfo;
 //import com.zjts.buscenter.web.model.DriverLicense;
@@ -41,7 +41,7 @@ package com.zjts.buscenter.web.controller;//package com.zjts.buscenter.web.contr
 //@RequestMapping("/drivermange")
 //public class DriverHealthController extends BaseController {
 //
-//    private static final Logger logger = LoggerFactory.getLogger(DriverInfoController.class);
+//    private templates final Logger logger = LoggerFactory.getLogger(DriverInfoController.class);
 //
 //    @Autowired
 //    private IDriverHealthService driverHealthService;

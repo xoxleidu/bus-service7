@@ -30,7 +30,7 @@ public class DriverInfo extends Model<DriverInfo> {
      * 员工号
      */
 	@TableField("employee_id")
-	private Integer employeeId;
+	private String employeeId;
     /**
      * 姓名
      */
@@ -65,7 +65,34 @@ public class DriverInfo extends Model<DriverInfo> {
      */
 	@TableField("photo_path")
 	private String photoPath;
-    /**
+	/**
+	 * 驾驶证路径
+	 */
+	@TableField("license_path")
+	private String licensePath;
+	/**
+	 * 体检信息路径
+	 */
+	@TableField("health_path")
+	private String healthPath;
+
+	public String getLicensePath() {
+		return licensePath;
+	}
+
+	public void setLicensePath(String licensePath) {
+		this.licensePath = licensePath;
+	}
+
+	public String getHealthPath() {
+		return healthPath;
+	}
+
+	public void setHealthPath(String healthPath) {
+		this.healthPath = healthPath;
+	}
+
+	/**
      * 备注
      */
 	private String remark;
@@ -123,11 +150,11 @@ public class DriverInfo extends Model<DriverInfo> {
 		return this;
 	}
 
-	public Integer getEmployeeId() {
+	public String getEmployeeId() {
 		return employeeId;
 	}
 
-	public DriverInfo setEmployeeId(Integer employeeId) {
+	public DriverInfo setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 		return this;
 	}

@@ -22,7 +22,8 @@ public enum CodeEnum {
   LOGIN_ERROR("009","用户名或密码错误！"),
   DELETE_ERROR("1000","删除失败"),
   STATYS_ERROR("1001","状态异常"),
-  SAVE_PIC_ERROR("1002","上传图片失败")
+  SAVE_PIC_ERROR("1002","上传图片失败"),
+  UPDATE_ERROR("1003","更新失败")
   ;
 
   private final String code;

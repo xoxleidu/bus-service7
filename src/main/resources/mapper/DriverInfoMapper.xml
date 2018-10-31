@@ -14,6 +14,8 @@
 		<result column="Company_id" property="CompanyId" />
 		<result column="address" property="address" />
 		<result column="photo_path" property="photoPath" />
+		<result column="license_path" property="licensePath" />
+		<result column="health_path" property="healthPath" />
 		<result column="remark" property="remark" />
 		<result column="incharge_line" property="inchargeLine" />
 		<result column="created_time" property="createdTime" />
@@ -25,7 +27,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, employee_id AS employeeId, name, sex, age, idcard, telephone, Company_id AS CompanyId, address, photo_path AS photoPath, remark, incharge_line AS inchargeLine, created_time AS createdTime, modified_time AS modifiedTime, grade, complaint_count AS complaintCount,status
+        id, employee_id AS employeeId,license_path AS licensePath, health_path AS healthPath,name, sex, age, idcard, telephone, Company_id AS CompanyId, address, photo_path AS photoPath, remark, incharge_line AS inchargeLine, created_time AS createdTime, modified_time AS modifiedTime, grade, complaint_count AS complaintCount,status
     </sql>
 
 </mapper>

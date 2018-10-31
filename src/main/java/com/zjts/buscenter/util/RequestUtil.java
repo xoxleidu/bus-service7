@@ -42,7 +42,7 @@ public class RequestUtil {
     }
 
 //
-//    public static void main(String[] args) {
+//    public templates void main(String[] args) {
 //        String str = "116.90.82.118,00:00:00:00:00:01";
 //        str = "116.90.82.118";
 //        str = "116.90.82.118,116.90.82.119";

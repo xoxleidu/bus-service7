@@ -1,9 +1,8 @@
-server:
-  port: 8080
+
+photolocalpath: D:/BusCenter-upload/
+photourlpath: http://localhost:8080/buscenter/
 
 spring:
-
-
   #  连接池
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
