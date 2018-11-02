@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.zjts.buscenter.common.constant.CodeEnum;
 import com.zjts.buscenter.common.model.APIResponse;
 import com.zjts.buscenter.common.model.req.BusInfoReq;
+import com.zjts.buscenter.util.BeanUtil;
 import com.zjts.buscenter.web.model.BusInfo;
 import com.zjts.buscenter.web.model.PageHelper;
 import com.zjts.buscenter.web.service.IBusInfoService;
@@ -94,14 +95,17 @@ public class BusInfoController extends BaseController {
 
     @ApiOperation(value = "查询全部Bus")
     @PostMapping(value = "/findallbus")
-    public APIResponse findAllBus(@RequestBody PageHelper pageHelper, BindingResult bindingResult){
+    public APIResponse findAllBus(@RequestBody BusInfoReq busInfoReq, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             return parameterVerification(bindingResult);
         }
         try {
-            Page page = busInfoService.selectPage(new Page<BusInfo>(pageHelper.getCurrentPage(),pageHelper.getPageSize()),new EntityWrapper<BusInfo>());
-            List list = page.getRecords();
-            if (list.size()>0) {
+            //pageHelper.setCurrentPage(1);
+            Page page1 = new Page<BusInfo>(busInfoReq.getCurrentPage(),busInfoReq.getPageSize());
+            BusInfo busInfo = new BusInfo();
+            BeanUtils.copyProperties(busInfoReq,busInfo);
+            Page<BusInfoReq> page = busInfoService.selectPage(page1,new EntityWrapper<BusInfo>(busInfo));
+            if (page.getRecords().size()>0) {
                 return APIResponse.success(page);
             }
         } catch (Exception e) {
@@ -109,9 +113,9 @@ public class BusInfoController extends BaseController {
             e.printStackTrace();
             return APIResponse.error(CodeEnum.FIND_NULL_ERROR,"暂无数据");
         }
-
         return APIResponse.error(CodeEnum.FIND_NULL_ERROR);
     }
+
 
     @ApiOperation(value = "通过id批量删除Bus")
     @PostMapping("/deletebusidlist")

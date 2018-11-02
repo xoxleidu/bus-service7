@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.sql.Date;
 
-public class BusInfoReq {
+public class BusInfoReq extends  BaseModel{
 
     private static final long serialVersionUID = 1L;
 
