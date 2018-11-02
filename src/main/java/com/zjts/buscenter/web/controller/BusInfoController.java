@@ -7,13 +7,13 @@
  */
 package com.zjts.buscenter.web.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zjts.buscenter.common.constant.CodeEnum;
 import com.zjts.buscenter.common.model.APIResponse;
 import com.zjts.buscenter.common.model.req.BusInfoReq;
 import com.zjts.buscenter.web.model.BusInfo;
-
 import com.zjts.buscenter.web.model.PageHelper;
 import com.zjts.buscenter.web.service.IBusInfoService;
 import io.swagger.annotations.Api;
@@ -25,11 +25,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 @Api(tags = "公交管理接口",description = "公交管理信息管理")
@@ -51,14 +53,16 @@ public class BusInfoController extends BaseController {
         try {
             BusInfo bus = new BusInfo();
             BeanUtils.copyProperties(busReq,bus);
-            DateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+            //DateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
             bus.setRegistrationDate(new Date());
-            System.out.println(bus.getRegistrationDate());
+
             boolean b = busInfoService.insert(bus);
+            BusInfo busInfo = busInfoService.selectOne(new EntityWrapper<BusInfo>().eq("license_number",bus.getLicenseNumber()));
             if (b){
-                return APIResponse.success();
+                return APIResponse.success(bus.getId());
+            }else {
+                return APIResponse.error(CodeEnum.SAVE_ERROR);
             }
-            return APIResponse.error(CodeEnum.SAVE_ERROR);
         } catch (Exception e) {
             logger.error("出现异常 : "+e.getMessage());
             e.printStackTrace();
@@ -66,14 +70,14 @@ public class BusInfoController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "通过车牌号查找单一Bus")
-    @GetMapping(value = "/findbusbyid")
-    public APIResponse findBusByid(@RequestBody @ApiParam(name = "licenseNumber",value = "车牌号") String licenseNumber, BindingResult bindingResult) {
+    @ApiOperation(value = "通过id查找单一Bus")
+    @PostMapping(value = "/findbusbyid")
+    public APIResponse findBusByid(@RequestBody @ApiParam(name = "id",value = "车辆id") String id, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return parameterVerification(bindingResult);
         }
         try {
-            BusInfo busInfo = busInfoService.selectOne(new EntityWrapper<BusInfo>().eq("license_number",licenseNumber));
+            BusInfo busInfo = busInfoService.selectOne(new EntityWrapper<BusInfo>().eq("id",id));
 
             if(busInfo.equals(null)){
                 return APIResponse.error(CodeEnum.FIND_NULL_ERROR);
@@ -98,7 +102,7 @@ public class BusInfoController extends BaseController {
             Page page = busInfoService.selectPage(new Page<BusInfo>(pageHelper.getCurrentPage(),pageHelper.getPageSize()),new EntityWrapper<BusInfo>());
             List list = page.getRecords();
             if (list.size()>0) {
-                return APIResponse.success(list);
+                return APIResponse.success(page);
             }
         } catch (Exception e) {
             logger.error("出现异常 : "+e.getMessage());
@@ -109,19 +113,20 @@ public class BusInfoController extends BaseController {
         return APIResponse.error(CodeEnum.FIND_NULL_ERROR);
     }
 
-    @ApiOperation(value = "批量删除Bus")
-    @DeleteMapping("/deletebuslist")
-    public APIResponse deleteBusByid(@RequestBody @ApiParam(name = "list",value = "车牌号集合")List<String> list, BindingResult bindingResult){
+    @ApiOperation(value = "通过id批量删除Bus")
+    @PostMapping("/deletebusidlist")
+    public APIResponse deleteBusByid(@RequestBody @ApiParam(name = "list",value = "车辆id集合")Map<String,List<Integer>> idMap, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             return parameterVerification(bindingResult);
         }
-        System.out.println(list);
+
         try {
-            String licenseNumber ="";
+            List<Integer> idList = idMap.get("id");
             boolean b = false;
-            for (int i = 0; i <list.size() ; i++) {
-                licenseNumber=list.get(i);
-                b=busInfoService.delete(new EntityWrapper<BusInfo>().eq("license_number",licenseNumber));
+            for (int i = 0; i < idList.size(); i++) {
+               b = busInfoService.deleteById(idList.get(i));
+
+               System.out.println(idList.get(i));
             }
             if (b){
                 return APIResponse.success();
@@ -134,18 +139,45 @@ public class BusInfoController extends BaseController {
         return APIResponse.error(CodeEnum.DELETE_ERROR);
     }
 
-    @ApiOperation(value = "通过车牌号修改Bus数据")
-    @PutMapping("/updatebus")
+
+    @ApiOperation(value = "通过id删除单一Bus")
+    @PostMapping("/deletebusbyid")
+    public APIResponse deleteBusById(@RequestBody @ApiParam(name = "id",value = "车辆id")JSONObject json, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            return parameterVerification(bindingResult);
+        }
+        try{
+            Integer id = (Integer) json.get("id");
+            boolean b = busInfoService.deleteById(id);
+            if(b){
+                return APIResponse.success();
+            }else {
+                return APIResponse.error(CodeEnum.DELETE_ERROR);
+            }
+        }catch (Exception e){
+            logger.error("出现异常 : "+e.getMessage());
+            e.printStackTrace();
+            return APIResponse.error(CodeEnum.DELETE_ERROR);
+        }
+
+    }
+
+    @ApiOperation(value = "通过车辆id修改Bus数据")
+    @PostMapping("/updatebus")
     public APIResponse updateBus(@RequestBody @Validated BusInfoReq busInfoReq, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             return parameterVerification(bindingResult);
         }
         try {
-            BusInfo busInfo = new BusInfo();
-            BeanUtils.copyProperties(busInfoReq,busInfo);
-            boolean b = busInfoService.update(busInfo,new EntityWrapper<BusInfo>().eq("license_number",busInfo.getLicenseNumber()));
-            if (b){
-                return APIResponse.success();
+            if (busInfoReq.getId()!=null) {
+                BusInfo busInfo = new BusInfo();
+                BeanUtils.copyProperties(busInfoReq, busInfo);
+                boolean b = busInfoService.update(busInfo, new EntityWrapper<BusInfo>().eq("id", busInfo.getId()));
+                if (b) {
+                    return APIResponse.success(busInfo.getId());
+                }
+            }else {
+                return APIResponse.error(CodeEnum.ERROR,"id不能为空");
             }
         } catch (Exception e) {
             logger.error("出现异常 : "+e.getMessage());

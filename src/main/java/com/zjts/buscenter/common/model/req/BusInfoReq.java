@@ -8,6 +8,7 @@
 package com.zjts.buscenter.common.model.req;
 
 import com.zjts.buscenter.common.model.req.group.bus.AddBusBasic;
+import com.zjts.buscenter.common.model.req.group.bus.DeleteBusInfo;
 import com.zjts.buscenter.common.model.req.group.bus.UpdateBusBasic;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -19,6 +20,13 @@ import java.sql.Date;
 public class BusInfoReq {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 序号
+     */
+    @NotNull(groups={DeleteBusInfo.class})
+    @ApiModelProperty(value = "车辆id")
+    private Integer id;
 
     /**
      * 车辆类型
@@ -168,6 +176,14 @@ public class BusInfoReq {
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getVehicleType() {
@@ -367,6 +383,10 @@ public class BusInfoReq {
     }
 
     public void setFaultidl(String faultid) {
+        this.faultid = faultid;
+    }
+
+    public void setFaultid(String faultid) {
         this.faultid = faultid;
     }
 }
