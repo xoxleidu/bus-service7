@@ -128,9 +128,8 @@ public class BusInfoController extends BaseController {
             List<Integer> idList = idMap.get("id");
             boolean b = false;
             for (int i = 0; i < idList.size(); i++) {
-               b = busInfoService.deleteById(idList.get(i));
-
-               System.out.println(idList.get(i));
+               b = busInfoService.deleteById(new EntityWrapper<BusInfo>().eq("id",idList.get(i)));
+               //System.out.println(idList.get(i));
             }
             if (b){
                 return APIResponse.success();
@@ -152,7 +151,7 @@ public class BusInfoController extends BaseController {
         }
         try{
             Integer id = (Integer) json.get("id");
-            boolean b = busInfoService.deleteById(id);
+            boolean b = busInfoService.deleteById(new EntityWrapper<BusInfo>().eq("id",id));
             if(b){
                 return APIResponse.success();
             }else {
