@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50559
 File Encoding         : 65001
 
-Date: 2018-11-02 17:14:31
+Date: 2018-11-05 10:59:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -132,3 +132,21 @@ INSERT INTO `fault_info` VALUES ('4', '2018-10-28 08:00:00', '爆胎2', '等待�
 INSERT INTO `fault_info` VALUES ('5', '2018-10-28 08:00:00', '爆胎2', '等待救援', '1', '冀R88887');
 INSERT INTO `fault_info` VALUES ('6', '2018-10-28 08:00:00', '爆胎', '等待救援', '1', '冀R88882');
 INSERT INTO `fault_info` VALUES ('7', '2018-10-28 08:00:00', '爆胎', '等待救援', '1', '冀R88884');
+
+-- ----------------------------
+-- Table structure for maintenance_info
+-- ----------------------------
+DROP TABLE IF EXISTS `maintenance_info`;
+CREATE TABLE `maintenance_info` (
+  `id` int(10) NOT NULL,
+  `maintenance_date` datetime DEFAULT NULL,
+  `maintenance_plant` varchar(20) DEFAULT NULL,
+  `maintenance_content` varchar(20) DEFAULT NULL,
+  `next_maintenance_date` datetime DEFAULT NULL,
+  `licenseNumber` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of maintenance_info
+-- ----------------------------
