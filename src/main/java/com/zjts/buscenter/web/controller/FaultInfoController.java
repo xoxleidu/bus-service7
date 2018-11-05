@@ -93,7 +93,7 @@ public class FaultInfoController extends BaseController {
     }
 
     @ApiOperation(value = "根据车牌号修改故障信息")
-    @PutMapping(value = "/updatebusfault")
+    @PostMapping(value = "/updatebusfault")
     public APIResponse updateBusFault(@RequestBody @Validated BusFaultReq busFaultReq , BindingResult bindingResult){
 
         if (bindingResult.hasErrors()) {
@@ -117,9 +117,9 @@ public class FaultInfoController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "根据id删除保养信息")
-    @DeleteMapping(value = "/deletebusfault")
-    public APIResponse deleteBusByFaultid(@RequestBody @ApiParam(name = "json格式的{id: }",value = "id")JSONObject json, BindingResult bindingResult){
+    @ApiOperation(value = "根据id删除故障信息")
+    @PostMapping(value = "/deletebusbyfaultId")
+    public APIResponse deleteBusByFaultId(@RequestBody @ApiParam(name = "json格式的{id: }",value = "id")JSONObject json, BindingResult bindingResult){
 
         if (bindingResult.hasErrors()) {
             return parameterVerification(bindingResult);
@@ -140,7 +140,7 @@ public class FaultInfoController extends BaseController {
 
 
     @ApiOperation(value = "批量删除")
-    @DeleteMapping(value = "/deletebusfault")
+    @PostMapping(value = "/deletebusfault")
     public APIResponse deleteBusFault(@RequestBody @ApiParam(name = "list",value = "id集合")Map<String,List<Integer>> idMap, BindingResult bindingResult){
 
         if (bindingResult.hasErrors()) {

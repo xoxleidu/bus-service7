@@ -70,7 +70,7 @@ public class MaintenanceInfoController extends BaseController {
     }
 
     @ApiOperation(value = "根据车辆id查询保养车辆信息")
-    @GetMapping(value = "/findbusmaintenance")
+    @PostMapping(value = "/findbusmaintenance")
     public APIResponse findBusMainenance(@RequestBody @ApiParam(name = "id",value = "车辆id")String id, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             return parameterVerification(bindingResult);
@@ -92,7 +92,7 @@ public class MaintenanceInfoController extends BaseController {
     }
 
     @ApiOperation(value = "根据车牌号修改保养信息")
-    @PutMapping(value = "/updatebusmaintenance")
+    @PostMapping(value = "/updatebusmaintenance")
     public APIResponse updateBusMaintenance(@RequestBody @Validated BusMaintenanceReq busMaintenanceReq , BindingResult bindingResult){
 
         if (bindingResult.hasErrors()) {
@@ -115,8 +115,8 @@ public class MaintenanceInfoController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "/批量删除")
-    @DeleteMapping(value = "/deletebusmaintenance")
+    @ApiOperation(value = "根据车辆id 删除保养信息")
+    @PostMapping(value = "/deletebusbymaintenanceid")
     public APIResponse deleteBusByMaintenanceid(@RequestBody @ApiParam(name = "json格式的{id: }",value = "id")JSONObject json, BindingResult bindingResult){
 
         if (bindingResult.hasErrors()) {
@@ -140,7 +140,7 @@ public class MaintenanceInfoController extends BaseController {
 
 
     @ApiOperation(value = "批量删除")
-    @DeleteMapping(value = "/deletebusmaintenance")
+    @PostMapping(value = "/deletebusmaintenance")
     public APIResponse deleteBusMaintenance(@RequestBody @ApiParam(name = "list",value = "id集合")Map<String,List<Integer>> idMap, BindingResult bindingResult){
 
         if (bindingResult.hasErrors()) {
