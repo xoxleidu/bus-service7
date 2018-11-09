@@ -29,6 +29,7 @@ public class StationIndex extends Model<StationIndex> {
 	private String routeName;
 
 	private String  upindex;
+
 	private String  downindex;
 
 
@@ -74,6 +75,17 @@ public class StationIndex extends Model<StationIndex> {
 
 	public void setDownindex(String downindex) {
 		this.downindex = downindex;
+	}
+
+	@Override
+	public String toString() {
+		return "StationIndex{" +
+				"id=" + id +
+				", routeId='" + routeId + '\'' +
+				", routeName='" + routeName + '\'' +
+				", upindex='" + upindex + '\'' +
+				", downindex='" + downindex + '\'' +
+				'}';
 	}
 
 	@Override

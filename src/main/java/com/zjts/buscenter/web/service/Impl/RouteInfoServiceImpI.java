@@ -48,6 +48,7 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
         return stationInfoList;
     }
 
+    //获取站点信息
     @Override
     public JSONObject findStationName(String routeName) {
         //上行索引
@@ -56,106 +57,147 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
         String[] downIndexArr = null;
         JSONObject jsonObject = new JSONObject();
         StationIndex stationIndex = new StationIndex();
+        //获取索引对象
         List<StationIndex> stationIndexList = routeInfoMapper.findStationIndex(routeName);
 
+        //基本上就是1-2条
         for (int i = 0; i < stationIndexList.size(); i++) {
-
             //System.out.println("------"+stationIndexList.get(i));
             stationIndex.setRouteName(stationIndexList.get(i).getRouteName());
             if (stationIndexList.get(i).getUpindex() != null) {
                 upIndexArr = stationIndexList.get(i).getUpindex().split(",");
+                stationIndex.setRouteId(stationIndexList.get(i).getRouteId());
+                jsonObject.put("upState",stationIndex.getRouteId());
             }
             if (stationIndexList.get(i).getDownindex() != null) {
                 downIndexArr = stationIndexList.get(i).getDownindex().split(",");
+                stationIndex.setRouteId(stationIndexList.get(i).getRouteId());
+                jsonObject.put("downState",stationIndex.getRouteId());
             }
         }
         jsonObject.put("name", stationIndex.getRouteName());
         //取出上行索引
-
-        if (upIndexArr[0].equals(upIndexArr[upIndexArr.length-1])) {
-
+        if (upIndexArr[0].equals(upIndexArr[upIndexArr.length - 1])) {
             jsonObject.put("upStartIndex", upIndexArr[0]);
-            jsonObject.put("upLastIndex", upIndexArr[upIndexArr.length - 2]);
+            jsonObject.put("upLastIndex", upIndexArr[upIndexArr.length - 1]);
         } else {
             jsonObject.put("upStartIndex", upIndexArr[0]);
             jsonObject.put("upLastIndex", upIndexArr[upIndexArr.length]);
         }
 
-
         //取出下行索引
-        if (downIndexArr[0].equals(downIndexArr[downIndexArr.length-1])) {
+        if (downIndexArr[0].equals(downIndexArr[downIndexArr.length - 1])) {
             jsonObject.put("downStartIndex", downIndexArr[0]);
-            jsonObject.put("downLastIndex", downIndexArr[downIndexArr.length - 2]);
+            jsonObject.put("downLastIndex", downIndexArr[downIndexArr.length - 1]);
         } else {
             jsonObject.put("downStartIndex", downIndexArr[0]);
             jsonObject.put("downLastIndex", downIndexArr[downIndexArr.length]);
         }
+
         return jsonObject;
     }
 
     @Override
     public List<StationInfo> findStationInfo(String routeName, String state) {
-
-        List<StationIndex> stationIndexList = routeInfoMapper.findStationIndex(routeName);
-
         //上行索引
-        String [] strupIndexArr = null;
+        int[] upIndexArr = upIndexArr(routeName);
         //下索引
-        String[] strdownIndexArr = null;
-        for (int i = 0; i < stationIndexList.size(); i++) {
-            if (stationIndexList.get(i).getUpindex() != null) {
-                strupIndexArr =stationIndexList.get(i).getUpindex().split(",");
-            }
-            if (stationIndexList.get(i).getDownindex() != null) {
-                strdownIndexArr = stationIndexList.get(i).getDownindex().split(",");
-            }
-        }
-        //转换类型做判断
-        int[] upIndexArr = new int[strupIndexArr.length];
-        int[] downIndexArr =new int[strdownIndexArr.length];
-        for (int i = 0; i < strupIndexArr.length; i++) {
-            upIndexArr[i]=Integer.parseInt(strupIndexArr[i]);
-        }
-        for (int i = 0; i <strdownIndexArr.length ; i++) {
-            downIndexArr[i] = Integer.parseInt(strdownIndexArr[i]);
-        }
+        int[] downIndexArr = downIndexArr(routeName);
+
         List<StationInfo> stationInfoList = routeInfoMapper.findStationInfo(routeName);
 
         List<StationInfo> list = new ArrayList<>();
 
-        for (int i = 0; i < stationInfoList.size(); i++) {
-            //获取上行站点
-            if (state.equals("0")) {
-                for (int j = 0; j < upIndexArr.length; j++) {
-                    if (upIndexArr[j]==i) {
-                        list.add(stationInfoList.get(i));
-                    }
-                }
-            }else if (state.equals("1")){ //获取下行站点
-                for (int j = 0; j < downIndexArr.length; j++) {
-                    if (downIndexArr[j]==i){
-                        list.add(stationInfoList.get(i));
+        String routeId = state.substring(state.length() - 1, state.length());
+
+        //上行站点
+        if (routeId.equals("1")) {
+            for (int i = 0; i < upIndexArr.length; i++) {
+                for (int j = 0; j < stationInfoList.size(); j++) {
+                    if (upIndexArr[i] == j) {
+                        list.add(stationInfoList.get(j));
                     }
                 }
             }
         }
+        //获取下行站点
+        if (routeId.equals("2")){
+            for (int i = 0; i < downIndexArr.length; i++) {
+                for (int j = 0; j < stationInfoList.size(); j++) {
+                    if (downIndexArr[i] == j) {
+                        list.add(stationInfoList.get(j));
+                    }
+                }
+            }
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String strTime = sdf.format(new Date().getTime());
+        Long longTime = Long.parseLong(strTime)-1;
+        Long a = 20180919201341L;
+
+        List<GpsInfo> realTimeBus = routeInfoMapper.findBusByRouteID(a, state);
+        for (int i = 0; i <realTimeBus.size() ; i++) {
+            for (int j = 0; j <list.size() ; j++) {
+                if (realTimeBus.get(i).getStationId()==list.get(j).getRouteIndex()) {
+                    List<GpsInfo> gpsInfos = new ArrayList<>();
+                    gpsInfos.add(realTimeBus.get(i));
+                    list.get(j).setGpsInfo(gpsInfos);
+                }
+            }
+        }
         return list;
+
+
     }
 
     @Override
     public List<GpsInfo> findBusByRouteID(String routeId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String strTime = sdf.format(new Date().getTime());
-        Long longTime = Long.parseLong(strTime);
+        Long longTime = Long.parseLong(strTime)-1;
         Long a = 20180919201341L;
-        List<GpsInfo> realTimeBus = routeInfoMapper.findBusByRouteID(a,routeId);
+        List<GpsInfo> realTimeBus = routeInfoMapper.findBusByRouteID(a, routeId);
 
         for (int i = 0; i < realTimeBus.size(); i++) {
 
             System.out.println(realTimeBus.get(i).toString());
         }
-
         return realTimeBus;
     }
 
+
+    //上行索引
+    private int[] upIndexArr(String routeName) {
+        List<StationIndex> stationIndexList = routeInfoMapper.findStationIndex(routeName);
+        String[] strupIndexArr = null;
+        for (int i = 0; i < stationIndexList.size(); i++) {
+            if (stationIndexList.get(i).getUpindex() != null) {
+                strupIndexArr = stationIndexList.get(i).getUpindex().split(",");
+            }
+        }
+        //转换类型做判断
+        int[] upIndexArr = new int[strupIndexArr.length];
+        for (int i = 0; i < strupIndexArr.length; i++) {
+            upIndexArr[i] = Integer.parseInt(strupIndexArr[i]);
+        }
+        return upIndexArr;
+    }
+
+    //下索引
+    private int[] downIndexArr(String routeName) {
+        List<StationIndex> stationIndexList = routeInfoMapper.findStationIndex(routeName);
+        String[] strdownIndexArr = null;
+        for (int i = 0; i < stationIndexList.size(); i++) {
+            if (stationIndexList.get(i).getDownindex() != null) {
+                strdownIndexArr = stationIndexList.get(i).getDownindex().split(",");
+            }
+        }
+        //转换类型做判断
+        int[] downIndexArr = new int[strdownIndexArr.length];
+        for (int i = 0; i < strdownIndexArr.length; i++) {
+            downIndexArr[i] = Integer.parseInt(strdownIndexArr[i]);
+        }
+        return downIndexArr;
+    }
 }
+

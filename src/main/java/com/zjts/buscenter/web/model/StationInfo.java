@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -47,7 +48,7 @@ public class StationInfo extends Model<StationInfo> {
 	 * 站点索引
 	 */
 	@TableField("route_index")
-	private String routeIndex;
+	private Integer routeIndex;
     /**
      * 备注
      */
@@ -59,11 +60,26 @@ public class StationInfo extends Model<StationInfo> {
 	@TableField("station_flag")
 	private String stationFlag;
 
-	public String getRouteIndex() {
+	//车辆实时信息
+	private List<GpsInfo> gpsInfo;
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public List<GpsInfo> getGpsInfo() {
+		return gpsInfo;
+	}
+
+	public void setGpsInfo(List<GpsInfo> gpsInfo) {
+		this.gpsInfo = gpsInfo;
+	}
+
+	public Integer getRouteIndex() {
 		return routeIndex;
 	}
 
-	public void setRouteIndex(String routeIndex) {
+	public void setRouteIndex(Integer routeIndex) {
 		this.routeIndex = routeIndex;
 	}
 
@@ -114,6 +130,7 @@ public class StationInfo extends Model<StationInfo> {
 	public void setStationFlag(String stationFlag) {
 		this.stationFlag = stationFlag;
 	}
+
 
 	@Override
 	protected Serializable pkVal() {

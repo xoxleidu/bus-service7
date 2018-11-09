@@ -142,6 +142,22 @@ public class RouteInfo extends Model<RouteInfo> {
 	}
 
 	@Override
+	public String toString() {
+		return "RouteInfo{" +
+				"id=" + id +
+				", city='" + city + '\'' +
+				", dataSourceId=" + dataSourceId +
+				", routeName='" + routeName + '\'' +
+				", routeVersions='" + routeVersions + '\'' +
+				", routeId='" + routeId + '\'' +
+				", upstartTime='" + upstartTime + '\'' +
+				", downstartTime='" + downstartTime + '\'' +
+				", uplastTime='" + uplastTime + '\'' +
+				", downlastTime='" + downlastTime + '\'' +
+				'}';
+	}
+
+	@Override
 	protected Serializable pkVal() {
 		return this.id;
 	}

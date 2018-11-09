@@ -60,9 +60,6 @@ public class RouteInfoController extends BaseController {
             Integer upLastIndex = Integer.parseInt((String) jsonObject.get("upLastIndex"));
             Integer downStartIndex = Integer.parseInt((String) jsonObject.get("downStartIndex"));
             Integer downLastIndex = Integer.parseInt((String) jsonObject.get("downLastIndex"));
-            /*Integer upLastIndex = (Integer) jsonObject.get("upLastIndex");
-            Integer downStartIndex = (Integer) jsonObject.get("downStartIndex");
-            Integer downLastIndex = (Integer) jsonObject.get("downLastIndex");*/
 
             List<StationInfo> stationInfoList = routeInfoService.findStationInfo((String) jsonObject.get("name"));
 
@@ -107,7 +104,8 @@ public class RouteInfoController extends BaseController {
             json.put("name",routeName);
             json.put("startTime",routeInfo.getUpstartTime());
             json.put("endTime",routeInfo.getDownlastTime());
-            json.put("stationList",stationInfoList);
+
+            json.put("station",stationInfoList);
             if (stationInfoList.size() > 0 && stationInfoList != null) {
                 return APIResponse.success(json);
             } else {
