@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjts.buscenter.web.dao.RouteInfoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.zjts.buscenter.web.model.RouteInfo">
+		<id column="id" property="id" />
+		<result column="city" property="city" />
+		<result column="data_source_id" property="dataSourceId" />
+		<result column="route_name" property="routeName" />
+		<result column="route_versions" property="routeVersions" />
+		<result column="route_id" property="routeId" />
+		<result column="upstart_time" property="upstartTime" />
+		<result column="downstart_time" property="downstartTime" />
+		<result column="uplast_time" property="uplastTime" />
+		<result column="downlast_time" property="downlastTime" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, city, data_source_id AS dataSourceId, route_name AS routeName, route_versions AS routeVersions, route_id AS routeId, upstart_time AS upstartTime, downstart_time AS downstartTime, uplast_time AS uplastTime, downlast_time AS downlastTime
+    </sql>
+
+	<!--<select id="finidRouentByRouentName" parameterType="com.zjts.buscenter.web.model.RouteInfo">
+		SELECT station_info.* FROM station_index,station_info WHERE (station_index.route_name = station_info.route_name)
+		in (SELECT station_index.route_name FROM station_index inner JOIN route_info as ri on ri.route_id = station_index.route_id WHERE ri.route_id=#{route_id})GROUP BY(id)
+	</select>-->
+
+
+	<select id="findStationInfo" resultType="com.zjts.buscenter.web.model.StationInfo" >
+		SELECT station_info.* FROM station_info INNER JOIN route_info WHERE route_info.route_name ='${routeName}'GROUP BY(id)
+	</select>
+	<select id="findStationIndex"  resultType="com.zjts.buscenter.web.model.StationIndex" >
+		SELECT station_index.* from station_index INNER JOIN route_info where route_info.route_name LIKE CONCAT ('${routeName}%') GROUP BY(id)
+	</select>
+	<select id="findBusByRouteID" resultType="com.zjts.buscenter.web.model.GpsInfo">
+		select vehicle_number,up_down,station_id,station_state, max(date_time) from gps_info where created_time >${nowTime} and  run_method = ${routeId} GROUP BY vehicle_number;
+	</select>
+
+</mapper>

@@ -17,7 +17,4 @@ import java.util.List;
  */
 public interface FaultInfoMapper extends BaseMapper<FaultInfo> {
 
-    @Select("SELECT bus_basis.* FROM bus_basis,fault_info WHERE fault_info.license_number=bus_basis.license_number")
-    List<FaultInfo> findBusBylicenseNumber(Page<FaultInfo> page);
-//  List<FaultInfo> findBusBylicenseNumber(PageHelper page);
 }
