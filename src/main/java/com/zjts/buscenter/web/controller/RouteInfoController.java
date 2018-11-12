@@ -67,7 +67,7 @@ public class RouteInfoController extends BaseController {
             return parameterVerification(bindingResult);
         }
         try{
-            String routName = String.valueOf(jsonObject.get("routName"));
+            String routName = String.valueOf(jsonObject.get("routeName"));
             String stationIndex = String.valueOf(jsonObject.get("stationIndex"));
             JSONObject upDownStation = routeInfoService.findUpDownStation(routName, stationIndex);
 
@@ -92,7 +92,7 @@ public class RouteInfoController extends BaseController {
             return parameterVerification(bindingResult);
         }
         try {
-            String routeName = (String) jsonObject.get("routName");
+            String routeName = (String) jsonObject.get("routeName");
             String state = (String) jsonObject.get("state");
             JSONObject stationJson = routeInfoService.findStationInfo(routeName, state);
             if (stationJson!=null){

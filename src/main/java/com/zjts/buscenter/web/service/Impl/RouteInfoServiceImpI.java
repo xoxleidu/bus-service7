@@ -184,10 +184,10 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
             }
         }
         if (state.equals("0")){
-            json.put("upStationList", upStationList);
+            json.put("stationList", upStationList);
             System.err.println(json.get("upStationList"));
         }else if (state.equals("1")){
-            json.put("downStationList", downStationList);
+            json.put("stationList", downStationList);
             System.err.println(json.get("downStationList"));
         }
 
