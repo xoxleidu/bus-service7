@@ -21,20 +21,29 @@
         id, city, data_source_id AS dataSourceId, route_name AS routeName, route_versions AS routeVersions, route_id AS routeId, upstart_time AS upstartTime, downstart_time AS downstartTime, uplast_time AS uplastTime, downlast_time AS downlastTime
     </sql>
 
-	<!--<select id="finidRouentByRouentName" parameterType="com.zjts.buscenter.web.model.RouteInfo">
-		SELECT station_info.* FROM station_index,station_info WHERE (station_index.route_name = station_info.route_name)
-		in (SELECT station_index.route_name FROM station_index inner JOIN route_info as ri on ri.route_id = station_index.route_id WHERE ri.route_id=#{route_id})GROUP BY(id)
+<!--	<select id="findStationIndex"  resultType="com.zjts.buscenter.web.model.StationIndex" >
+		SELECT station_index.* from station_index INNER JOIN route_info where route_info.route_name ='${routeName}路' GROUP BY(id)
 	</select>-->
 
 
-	<select id="findStationInfo" resultType="com.zjts.buscenter.web.model.StationInfo" >
-		SELECT station_info.* FROM station_info INNER JOIN route_info WHERE route_info.route_name ='${routeName}'GROUP BY(id)
-	</select>
-	<select id="findStationIndex"  resultType="com.zjts.buscenter.web.model.StationIndex" >
-		SELECT station_index.* from station_index INNER JOIN route_info where route_info.route_name LIKE CONCAT ('${routeName}%') GROUP BY(id)
-	</select>
+
+	<!--查询车辆最新数据 -->
 	<select id="findBusByRouteID" resultType="com.zjts.buscenter.web.model.GpsInfo">
-		select vehicle_number,up_down,station_id,station_state, max(date_time) from gps_info where created_time >${nowTime} and  run_method = ${routeId} GROUP BY vehicle_number;
+		select vehicle_number,up_down,station_id,station_state, max(date_time) from gps_info where created_time >${nowTime} and  run_method = ${runMethod} GROUP BY vehicle_number;
 	</select>
 
+	<!--微信 ： 根据站点(汉字)查询-->
+	<select id="findRouteByStationName" resultType="com.zjts.buscenter.web.model.StationInfo">
+		SELECT station_info.route_name,station_info.station_name,station_info.route_index,station_info.station_flag FROM station_info INNER JOIN route_info
+		<where>
+			station_name LIKE '%${stationName}%'  GROUP BY(station_info.id)
+		</where>
+	</select>
+	<!--微信 ： 根据线路(数字)名查询-->
+	<select id="findRouteByRouteName" resultType="com.zjts.buscenter.web.model.StationInfo">
+		SELECT route_name,station_name,route_index FROM station_info
+		<where>
+			route_name = '${routeName}路' GROUP BY id
+		</where>
+	</select>
 </mapper>

@@ -73,7 +73,7 @@ public class BaseAction extends ActionSupport implements SessionAware, ServletRe
 	 * 
 	 * Spring 反射机制 WebApplicationContext 容器中获得service
 	 * 
-	 * @param String
+	 * @param
 	 *            id
 	 * 
 	 * @return Object

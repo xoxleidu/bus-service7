@@ -242,7 +242,7 @@ public class GpsInfo extends Model<GpsInfo> {
 		return this;
 	}
 
-	public Boolean isUpDown() {
+	public Boolean getUpDown() {
 		return upDown;
 	}
 
@@ -260,7 +260,7 @@ public class GpsInfo extends Model<GpsInfo> {
 		return this;
 	}
 
-	public Boolean isStationState() {
+	public Boolean getStationState() {
 		return stationState;
 	}
 

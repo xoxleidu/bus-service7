@@ -22,9 +22,15 @@ import java.util.List;
 @Repository
 public interface RouteInfoMapper extends BaseMapper<RouteInfo> {
 
-    List<StationInfo> findStationInfo(@Param("routeName") String routeName);
+    /**根据站点名 模糊查询线路信息 */
+    List<StationInfo> findRouteByStationName(@Param("stationName")String stationName);
+    /**根据线路名 查询线路信息*/
+    List<StationInfo> findRouteByRouteName(@Param("routeName")String routeName);
 
-    List<StationIndex> findStationIndex(@Param("routeName") String routeName);
+    /**根据线路名查找 站点索引（整条线路 包含上下行）*/
+    //List<StationIndex> findStationIndex(@Param("routeName") String routeName);
 
-    List<GpsInfo> findBusByRouteID(@Param("nowTime")Long nowTime,@Param("routeId")String routeId);
+    /** 根据最新的时间以及跑法号 查询 车辆信息*/
+    List<GpsInfo> findBusByRouteID(@Param("nowTime")Long longTime, @Param("runMethod")String runMethod);
+
 }
