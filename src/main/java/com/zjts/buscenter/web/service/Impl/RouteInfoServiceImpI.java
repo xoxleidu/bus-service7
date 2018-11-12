@@ -188,15 +188,15 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
 
         if (state.equals("0")){
             for (RouteInfo routeInfo:routeInfoList) {
-                json.put("UpstartTime",routeInfo.getUpstartTime());
-                json.put("UplastTime",routeInfo.getUplastTime());
+                json.put("startTime",routeInfo.getUpstartTime());
+                json.put("lastTime",routeInfo.getUplastTime());
             }
             json.put("stationList", upStationList);
             System.err.println(json.get("upStationList"));
         }else if (state.equals("1")){
             for (RouteInfo routeInfo:routeInfoList) {
-                json.put("DownstartTime",routeInfo.getDownstartTime());
-                json.put("UplastTime",routeInfo.getUplastTime());
+                json.put("startTime",routeInfo.getDownstartTime());
+                json.put("lastTime",routeInfo.getUplastTime());
             }
             json.put("stationList", downStationList);
             System.err.println(json.get("downStationList"));
