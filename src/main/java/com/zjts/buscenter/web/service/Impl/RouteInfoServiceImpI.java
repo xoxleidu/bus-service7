@@ -156,12 +156,14 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
         Long longTime = Long.parseLong(sdf);
         //List<StationIndex> stationIndexList = routeInfoMapper.findStationIndex(strName);
         List<StationIndex> stationIndexList = stationIndexMapper.selectList(new EntityWrapper<StationIndex>().eq("route_name",strName));
-        String runMethod = null;
+        String routeId = null;
         for (int i = 0; i < stationIndexList.size(); i++) {
-            runMethod = stationIndexList.get(i).getRouteId();
+            routeId = stationIndexList.get(i).getRouteId();
         }
+        List<RouteInfo> routeInfoList = routeInfoMapper.selectList(new EntityWrapper<RouteInfo>().eq("route_id", routeId));
+
         Long a = 20180919201345L;
-        List<GpsInfo> realTimeBus = routeInfoMapper.findBusByRouteID(a, runMethod);
+        List<GpsInfo> realTimeBus = routeInfoMapper.findBusByRouteID(a, routeId);
 
         //获取上行站点
         for (int i = 0; i < realTimeBus.size(); i++) {
@@ -183,10 +185,19 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
                 }
             }
         }
+
         if (state.equals("0")){
+            for (RouteInfo routeInfo:routeInfoList) {
+                json.put("UpstartTime",routeInfo.getUpstartTime());
+                json.put("UplastTime",routeInfo.getUplastTime());
+            }
             json.put("stationList", upStationList);
             System.err.println(json.get("upStationList"));
         }else if (state.equals("1")){
+            for (RouteInfo routeInfo:routeInfoList) {
+                json.put("DownstartTime",routeInfo.getDownstartTime());
+                json.put("UplastTime",routeInfo.getUplastTime());
+            }
             json.put("stationList", downStationList);
             System.err.println(json.get("downStationList"));
         }
