@@ -45,27 +45,31 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
 
     @Override
     public JSONObject findRoute(String Name) {
-        String strName = Name.trim();
+        String strName = Name.replace("\"", "").trim();
         //首先判断客户端客户输入的是 站名还是 线路名
         Boolean flag = false;
         for (int i = 0; i < strName.length(); i++) {
             if (!Character.isDigit(strName.charAt(i))) {
                 flag = false;
             } else {
-                //这里应再有一个判断  判断用户是否加了一‘路’字 ?
                 flag = true;
             }
         }
+        if (strName.endsWith("路")) {
+            strName=strName.substring(0,strName.length()-1);
+            flag = true;
+        }
+        System.err.println(flag);
         JSONObject json = new JSONObject();
         //线路名
         if (flag) {
-            int[] upIndexArr = upIndexArr(strName+"路");
-            int[] downIndexArr = downIndexArr(strName+"路");
+            int[] upIndexArr = upIndexArr(strName + "路");
+            int[] downIndexArr = downIndexArr(strName + "路");
             List<StationInfo> routeByRouteName = routeInfoMapper.findRouteByRouteName(strName);
 
             for (int i = 0; i < routeByRouteName.size(); i++) {
                 //线路名
-                json.put("routeName",routeByRouteName.get(i).getRouteName());
+                json.put("routeName", routeByRouteName.get(i).getRouteName());
                 //上行起始站
                 json.put("upStartName", routeByRouteName.get(upIndexArr[0]).getStationName());
                 //上行终点站
@@ -83,12 +87,12 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
             List<StationInfo> routeByStationName = routeInfoMapper.findRouteByStationName(strName);
             List<JSONObject> stationInfos = new ArrayList<>();
 
-           // Map<String, List<String>> stationMap = new HashMap<>();
-           for (int i = 0; i < routeByStationName.size(); i++) {
-               JSONObject jsonObject = new JSONObject();
-               jsonObject.put("routName",routeByStationName.get(i).getRouteName());
-               jsonObject.put("stationName",routeByStationName.get(i).getStationName());
-               jsonObject.put("stationIndex",routeByStationName.get(i).getRouteIndex());
+            // Map<String, List<String>> stationMap = new HashMap<>();
+            for (int i = 0; i < routeByStationName.size(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("routName", routeByStationName.get(i).getRouteName());
+                jsonObject.put("stationName", routeByStationName.get(i).getStationName());
+                jsonObject.put("stationIndex", routeByStationName.get(i).getRouteIndex());
                 stationInfos.add(jsonObject);
             }
              /*
@@ -115,7 +119,7 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
             */
             //json.put("upStationList",upStationList);
             //json.put("downStationList",downStationList);
-            json.put("stationInfos",stationInfos);
+            json.put("stationInfos", stationInfos);
         }
 
         return json;
@@ -124,7 +128,7 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
     @Override
     public JSONObject findStationInfo(String strName, String state) {
         JSONObject json = new JSONObject();
-        List<StationInfo> routeByRouteName = routeInfoMapper.findRouteByRouteName(strName.substring(0,1));
+        List<StationInfo> routeByRouteName = routeInfoMapper.findRouteByRouteName(strName.substring(0, 1));
         int[] upIndexArr = upIndexArr(strName);
         int[] downIndexArr = downIndexArr(strName);
         List<StationInfo> upStationList = new ArrayList<>();
@@ -155,7 +159,7 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
         //等有数据的时候再放longTime
         Long longTime = Long.parseLong(sdf);
         //List<StationIndex> stationIndexList = routeInfoMapper.findStationIndex(strName);
-        List<StationIndex> stationIndexList = stationIndexMapper.selectList(new EntityWrapper<StationIndex>().eq("route_name",strName));
+        List<StationIndex> stationIndexList = stationIndexMapper.selectList(new EntityWrapper<StationIndex>().eq("route_name", strName));
         String routeId = null;
         for (int i = 0; i < stationIndexList.size(); i++) {
             routeId = stationIndexList.get(i).getRouteId();
@@ -186,17 +190,17 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
             }
         }
 
-        if (state.equals("0")){
-            for (RouteInfo routeInfo:routeInfoList) {
-                json.put("startTime",routeInfo.getUpstartTime());
-                json.put("lastTime",routeInfo.getUplastTime());
+        if (state.equals("0")) {
+            for (RouteInfo routeInfo : routeInfoList) {
+                json.put("startTime", routeInfo.getUpstartTime());
+                json.put("lastTime", routeInfo.getUplastTime());
             }
             json.put("stationList", upStationList);
             System.err.println(json.get("upStationList"));
-        }else if (state.equals("1")){
-            for (RouteInfo routeInfo:routeInfoList) {
-                json.put("startTime",routeInfo.getDownstartTime());
-                json.put("lastTime",routeInfo.getUplastTime());
+        } else if (state.equals("1")) {
+            for (RouteInfo routeInfo : routeInfoList) {
+                json.put("startTime", routeInfo.getDownstartTime());
+                json.put("lastTime", routeInfo.getUplastTime());
             }
             json.put("stationList", downStationList);
             System.err.println(json.get("downStationList"));
@@ -211,11 +215,11 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
         int[] upIndexArr = upIndexArr(routeName);
         int[] downIndexArr = downIndexArr(routeName);
         JSONObject json = new JSONObject();
-        List<StationInfo> routeByRouteName = routeInfoMapper.findRouteByRouteName(routeName.substring(0,1));
+        List<StationInfo> routeByRouteName = routeInfoMapper.findRouteByRouteName(routeName.substring(0, 1));
 
         for (int i = 0; i < routeByRouteName.size(); i++) {
             //线路名
-            json.put("routeName",routeByRouteName.get(i).getRouteName());
+            json.put("routeName", routeByRouteName.get(i).getRouteName());
             //上行起始站
             json.put("upStartName", routeByRouteName.get(upIndexArr[0]).getStationName());
             //上行终点站
@@ -233,7 +237,7 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
     //上行索引
     private int[] upIndexArr(String routeName) {
         //List<StationIndex> stationIndexList = routeInfoMapper.findStationIndex(routeName);
-        List<StationIndex> stationIndexList = stationIndexMapper.selectList(new EntityWrapper<StationIndex>().eq("route_name",routeName));
+        List<StationIndex> stationIndexList = stationIndexMapper.selectList(new EntityWrapper<StationIndex>().eq("route_name", routeName));
 
         String[] strupIndexArr = null;
         for (int i = 0; i < stationIndexList.size(); i++) {
@@ -252,8 +256,8 @@ public class RouteInfoServiceImpI extends ServiceImpl<RouteInfoMapper, RouteInfo
 
     //下索引
     private int[] downIndexArr(String routeName) {
-       // List<StationIndex> stationIndexList = routeInfoMapper.findStationIndex(routeName);
-        List<StationIndex> stationIndexList = stationIndexMapper.selectList(new EntityWrapper<StationIndex>().eq("route_name",routeName));
+        // List<StationIndex> stationIndexList = routeInfoMapper.findStationIndex(routeName);
+        List<StationIndex> stationIndexList = stationIndexMapper.selectList(new EntityWrapper<StationIndex>().eq("route_name", routeName));
         String[] strdownIndexArr = null;
         for (int i = 0; i < stationIndexList.size(); i++) {
             if (stationIndexList.get(i).getDownindex() != null) {
