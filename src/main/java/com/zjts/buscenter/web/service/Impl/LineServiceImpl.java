@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -232,8 +233,13 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
                     JSONObject jsonBus = AppSendUtils.connectURL(busGpsList.get(j).getLongitude(), busGpsList.get(j).getLatitude(), "");
                     //计算两点距离
                     double distance = GpsUtil.Distance(jsonStation.get("x"),jsonStation.get("y"),jsonBus.get("x"), jsonBus.get("y"));
-                    System.err.println((distance/(30*1000))*60);
-                    busGpsList.get(j).setNextTime((distance/(25*1000))*60);
+                    distance=distance/(30*1000)*60;
+                    BigDecimal bd=new BigDecimal(distance).setScale(0, BigDecimal.ROUND_HALF_UP);
+                    int time = Integer.parseInt(String.valueOf(bd));
+                    if (time<1) {
+                        time = 1;
+                    }
+                    busGpsList.get(j).setNextTime(time);
                     bus.add(busGpsList.get(j));
                     stationList.get(i).setBusGps(bus);
                 }
