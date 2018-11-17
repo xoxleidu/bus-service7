@@ -1,7 +1,7 @@
 package com.zjts.buscenter.web.dao;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.zjts.buscenter.web.model.BusInfo;
+import com.zjts.buscenter.web.model.Station;
 
 /**
  * <p>
@@ -9,8 +9,8 @@ import com.zjts.buscenter.web.model.BusInfo;
  * </p>
  *
  * @author zs
- * @since 2018-11-13
+ * @since 2018-11-14
  */
-public interface BusInfoMapper extends BaseMapper<BusInfo> {
+public interface StationMapper extends BaseMapper<Station> {
 
 }

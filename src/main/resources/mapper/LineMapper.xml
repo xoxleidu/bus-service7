@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjts.buscenter.web.dao.LineMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.zjts.buscenter.web.model.Line">
+		<id column="id" property="id" />
+		<result column="line_name" property="lineName" />
+		<result column="line_version" property="lineVersion" />
+		<result column="run_method" property="runMethod" />
+		<result column="operationTime" property="operationTime" />
+		<result column="circle" property="circle" />
+		<result column="up_list" property="upList" />
+		<result column="down_list" property="downList" />
+		<result column="company" property="company" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, line_name AS lineName, line_version AS lineVersion, run_method AS runMethod, operationTime, circle, up_list AS upList, down_list AS downList, company
+    </sql>
+	<!--插入line数据-->
+	<insert id="insertLine" parameterType="com.zjts.buscenter.web.model.Line">
+		INSERT INTO line (line_name,line_version,run_method,circle,up_list,down_list)VALUES('${line_name}','${line_version}',${run_method},'${operationTime}',${circle},'${up_list}','${down_list}')
+	</insert>
+	<!--插入station数据-->
+	<insert id="insertStation" parameterType="com.zjts.buscenter.web.model.Station">
+		INSERT  INTO  station(site_name,lat,lon,run_method)VALUES('${site_name}','${lat}','${lon}',${run_method})
+	</insert>
+	<!--根据线路名查询 线路信息信息-->
+	<select id="findLineBylineName" parameterType="com.zjts.buscenter.web.model.Line" resultType="com.zjts.buscenter.web.model.Line">
+		SELECT line_name,line_version,run_method,operationTime,circle,up_list,down_list FROM `line`
+		<where>line_name='${line_name}'</where>
+	</select>
+	<!--根据跑法号查询 站点信息-->
+	<select id="findStationByRunMethod" parameterType="com.zjts.buscenter.web.model.Station" resultType="com.zjts.buscenter.web.model.Station">
+		SELECT station.site_name,station.lat,station.lon,station.run_method FROM station
+		<where>
+			station.run_method = '${run_method}' GROUP BY station.id
+		</where>
+	</select>
+	<!--根据站点名查找 该站点的线路信息-->
+	<select id="findLineByStationName" parameterType="com.zjts.buscenter.web.model.Line" resultType="com.zjts.buscenter.web.model.Line">
+		SELECT line.line_name,line.run_method,line.operationTime,line.circle,line.up_list,line.down_list FROM line INNER JOIN station
+		<where>
+			line.run_method = station.run_method and station.site_name='${site_name}' GROUP BY run_method
+		</where>
+
+	</select>
+	<!--根据站点名 模糊查询所有站点名-->
+	<select id="findStationByStatonName" parameterType="com.zjts.buscenter.web.model.Station" resultType="com.zjts.buscenter.web.model.Station">
+		SELECT station.site_name,station.lat,station.lon,station.run_method FROM station
+		 <where>
+			 station.site_name LIKE '%${site_name}%' GROUP BY site_name
+		 </where>
+	</select>
+	<!--根据跑法号 查询线路信息-->
+	<select id="findLineByRunMethod" parameterType="com.zjts.buscenter.web.model.Line" resultType="com.zjts.buscenter.web.model.Line">
+		SELECT line.line_name,line.run_method,line.operationTime,line.circle,line.up_list,line.down_list FROM line
+		 <where>
+			 line.run_method = '${run_method}'
+		 </where>
+	</select>
+	<select id="findStationByLineName" parameterType="com.zjts.buscenter.web.model.Station" resultType="com.zjts.buscenter.web.model.Station">
+		SELECT station.site_name,station.lat,station.lon,station.run_method  FROM station INNER JOIN line
+		<where>
+			station.run_method = line.run_method AND line.line_name = '${line_name}'AND line.run_method ='${run_method}'
+		</where>
+	</select>
+	<!--查询车辆最新数据 -->
+	<select id="findBusByRunMethod" resultType="com.zjts.buscenter.web.model.GpsInfo" parameterType="com.zjts.buscenter.web.model.GpsInfo">
+		select vehicle_number,up_down,station_id,station_state,longitude,latitude,run_method, max(date_time) from gps_info
+		<where>
+			created_time >${nowTime} and  run_method = ${run_method} GROUP BY vehicle_number;
+		</where>
+	</select>
+</mapper>

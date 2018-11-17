@@ -55,10 +55,9 @@ public class BusInfoController extends BaseController {
             BusInfo bus = new BusInfo();
             BeanUtils.copyProperties(busReq,bus);
             //DateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-            bus.setRegistrationDate(new Date());
-
+           // bus.setRecordDate(new Date());
             boolean b = busInfoService.insert(bus);
-            BusInfo busInfo = busInfoService.selectOne(new EntityWrapper<BusInfo>().eq("license_number",bus.getLicenseNumber()));
+            BusInfo busInfo = busInfoService.selectOne(new EntityWrapper<BusInfo>().eq("license_number",bus.getBusLicense()));
             if (b){
                 return APIResponse.success(bus.getId());
             }else {

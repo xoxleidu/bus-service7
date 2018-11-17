@@ -57,11 +57,11 @@ public class GpsInfo extends Model<GpsInfo> {
     /**
      * 经度信息
      */
-	private String longitude;
+	private Double longitude;
     /**
      * 纬度信息
      */
-	private String latitude;
+	private Double latitude;
     /**
      * gps方向
      */
@@ -115,6 +115,16 @@ public class GpsInfo extends Model<GpsInfo> {
 	@TableField("state_number")
 	private String stateNumber;
 
+	//距下一站的时间
+	private double nextTime;
+
+	public double getNextTime() {
+		return nextTime;
+	}
+
+	public void setNextTime(double nextTime) {
+		this.nextTime = nextTime;
+	}
 
 	public Integer getId() {
 		return id;
@@ -179,22 +189,20 @@ public class GpsInfo extends Model<GpsInfo> {
 		return this;
 	}
 
-	public String getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public GpsInfo setLongitude(String longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
-		return this;
 	}
 
-	public String getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public GpsInfo setLatitude(String latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
-		return this;
 	}
 
 	public String getDirection() {

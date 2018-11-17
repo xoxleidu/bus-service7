@@ -1,368 +1,184 @@
 package com.zjts.buscenter.web.model;
 
 import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.enums.IdType;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 
 /**
  * <p>
- *
+ * 		车辆信息实体类
  * </p>
  *
  * @author zs
- * @since 2018-10-26
+ * @since 2018-11-13
  */
-@TableName("bus_basis")
+@TableName("bus_info")
 public class BusInfo extends Model<BusInfo> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 	@TableId(value="id", type= IdType.AUTO)
-	private Integer id;
-	/**
-	 * 车辆类型
-	 */
-	@TableField("vehicle_type")
-	private String vehicleType;
-	/**
-	 * 车牌号
-	 */
-	@TableField("license_number")
-	private String licenseNumber;
-	/**
-	 * 车长
-	 */
-	@TableField("bus_length")
-	private Double busLength;
-	/**
-	 * 车身宽
-	 */
-	@TableField("bus_wide")
-	private Double busWide;
-	/**
-	 * 车身高
-	 */
-	@TableField("bus_high")
-	private Double busHigh;
-	/**
-	 * 座位
-	 */
-	private Integer seating;
-	/**
-	 * 厂牌号
-	 */
-	@TableField("factory_brand")
-	private Integer factoryBrand;
-	/**
-	 * 路线id
-	 */
-	@TableField("path_id")
-	private Integer pathId;
-	/**
-	 * 站点id（0：未知）
-	 */
-	@TableField("station_id")
-	private Integer stationId;
-	/**
-	 * 运营状态（0：运营中  -1：非运营）
-	 */
-	@TableField("operation_state")
-	private Integer operationState;
-	/**
-	 * 进出站状态（0：站外 1：站内）
-	 */
-	@TableField("station_status")
-	private Integer stationStatus;
-	/**
-	 * 上下行状态（0：上行  1：下行）
-	 */
-	@TableField("up_downStream")
-	private Integer upDownStream;
-	/**
-	 * 经纬度id
-	 */
-	@TableField("GSP_id")
-	private Integer GSPId;
-	/**
-	 * 车辆登记编号
-	 */
+	private String id;
+    /**
+     * 线路
+     */
+	private String line;
+    /**
+     * 车牌号
+     */
+	@TableField("bus_license")
+	private String busLicense;
+    /**
+     * 厂牌型号
+     */
+	@TableField("brand_cachet")
+	private String brandCachet;
+    /**
+     * 车辆登记编号
+     */
 	@TableField("registration_number")
-	private Integer registrationNumber;
-	/**
-	 * 发动机号
-	 */
-	@TableField("engine_no")
-	private Integer engineNo;
-	/**
-	 * 车辆识别码
-	 */
-	@TableField("identification_code")
-	private String identificationCode;
-	/**
-	 * 登记日期
-	 */
-	@TableField("registration_date")
-	private Date registrationDate;
-	/**
-	 * 验车信息
-	 */
+	private String registrationNumber;
+    /**
+     * 发动机号
+     */
+	@TableField("engine_number")
+	private String engineNumber;
+    /**
+     * 车辆识别码
+     */
+	@TableField("vehicle_identification")
+	private String vehicleIdentification;
+    /**
+     * 座位数
+     */
+	private String seating;
+    /**
+     * 登记日期
+     */
+	@TableField("record_date")
+	private String recordDate;
+    /**
+     * 备注
+     */
+	private String remarks;
+    /**
+     * 验车日期
+     */
+	@TableField("vehicle_examination")
+	private String vehicleExamination;
 
-	private String maintenanceid;
-	/**
-	 * 所属公司
-	 */
-	@TableField("affiliation_company")
-	private String affiliationCompany;
-	/**
-	 * 油耗
-	 */
-	@TableField("fuel_consumption")
-	private String fuelConsumption;
-	/**
-	 * 空调车标记（0：默认  1：空调车  2：非空调车）
-	 */
-	@TableField("air_Conditioned")
-	private Integer airConditioned;
-	/**
-	 * 出厂日期
-	 */
-	@TableField("manufacture_date")
-	private Date manufactureDate;
-	/**
-	 * 行驶公里
-	 */
-	@TableField("driving_km")
-	private Double drivingKm;
-	/**
-	 * 车辆备注
-	 */
-	@TableField("bus_note")
-	private String busNote;
-
-	/**
-	 * 车辆事故信息
-	 * @return
-	 */
-	private String faultid;
-
-	public String getFaultid() {
-		return faultid;
-	}
-
-	public void setFaultidl(String faultid) {
-		this.faultid = faultid;
-	}
-
-	public static long getSerialVersionUID() {
-		return serialVersionUID;
-	}
-
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public String getVehicleType() {
-		return vehicleType;
+	public String getLine() {
+		return line;
 	}
 
-	public void setVehicleType(String vehicleType) {
-		this.vehicleType = vehicleType;
+	public void setLine(String line) {
+		this.line = line;
 	}
 
-	public String getLicenseNumber() {
-		return licenseNumber;
+	public String getBusLicense() {
+		return busLicense;
 	}
 
-	public void setLicenseNumber(String licenseNumber) {
-		this.licenseNumber = licenseNumber;
+	public void setBusLicense(String busLicense) {
+		this.busLicense = busLicense;
 	}
 
-	public Double getBusLength() {
-		return busLength;
+	public String getBrandCachet() {
+		return brandCachet;
 	}
 
-	public void setBusLength(Double busLength) {
-		this.busLength = busLength;
+	public void setBrandCachet(String brandCachet) {
+		this.brandCachet = brandCachet;
 	}
 
-	public Double getBusWide() {
-		return busWide;
-	}
-
-	public void setBusWide(Double busWide) {
-		this.busWide = busWide;
-	}
-
-	public Double getBusHigh() {
-		return busHigh;
-	}
-
-	public void setBusHigh(Double busHigh) {
-		this.busHigh = busHigh;
-	}
-
-	public Integer getSeating() {
-		return seating;
-	}
-
-	public void setSeating(Integer seating) {
-		this.seating = seating;
-	}
-
-	public Integer getFactoryBrand() {
-		return factoryBrand;
-	}
-
-	public void setFactoryBrand(Integer factoryBrand) {
-		this.factoryBrand = factoryBrand;
-	}
-
-	public Integer getPathId() {
-		return pathId;
-	}
-
-	public void setPathId(Integer pathId) {
-		this.pathId = pathId;
-	}
-
-	public Integer getStationId() {
-		return stationId;
-	}
-
-	public void setStationId(Integer stationId) {
-		this.stationId = stationId;
-	}
-
-	public Integer getOperationState() {
-		return operationState;
-	}
-
-	public void setOperationState(Integer operationState) {
-		this.operationState = operationState;
-	}
-
-	public Integer getStationStatus() {
-		return stationStatus;
-	}
-
-	public void setStationStatus(Integer stationStatus) {
-		this.stationStatus = stationStatus;
-	}
-
-	public Integer getUpDownStream() {
-		return upDownStream;
-	}
-
-	public void setUpDownStream(Integer upDownStream) {
-		this.upDownStream = upDownStream;
-	}
-
-	public Integer getGSPId() {
-		return GSPId;
-	}
-
-	public void setGSPId(Integer GSPId) {
-		this.GSPId = GSPId;
-	}
-
-	public Integer getRegistrationNumber() {
+	public String getRegistrationNumber() {
 		return registrationNumber;
 	}
 
-	public void setRegistrationNumber(Integer registrationNumber) {
+	public void setRegistrationNumber(String registrationNumber) {
 		this.registrationNumber = registrationNumber;
 	}
 
-	public Integer getEngineNo() {
-		return engineNo;
+	public String getEngineNumber() {
+		return engineNumber;
 	}
 
-	public void setEngineNo(Integer engineNo) {
-		this.engineNo = engineNo;
+	public void setEngineNumber(String engineNumber) {
+		this.engineNumber = engineNumber;
 	}
 
-	public String getIdentificationCode() {
-		return identificationCode;
+	public String getVehicleIdentification() {
+		return vehicleIdentification;
 	}
 
-	public void setIdentificationCode(String identificationCode) {
-		this.identificationCode = identificationCode;
+	public void setVehicleIdentification(String vehicleIdentification) {
+		this.vehicleIdentification = vehicleIdentification;
 	}
 
-	public Date getRegistrationDate() {
-		return registrationDate;
+	public String getSeating() {
+		return seating;
 	}
 
-	public void setRegistrationDate(Date registrationDate) {
-		this.registrationDate = registrationDate;
+	public void setSeating(String seating) {
+		this.seating = seating;
 	}
 
-	public String getMaintenanceid() {
-		return maintenanceid;
+	public String getRecordDate() {
+		return recordDate;
 	}
 
-	public void setMaintenanceid(String maintenanceid) {
-		this.maintenanceid = maintenanceid;
+	public void setRecordDate(String recordDate) {
+		this.recordDate = recordDate;
 	}
 
-	public String getAffiliationCompany() {
-		return affiliationCompany;
+	public String getRemarks() {
+		return remarks;
 	}
 
-	public void setAffiliationCompany(String affiliationCompany) {
-		this.affiliationCompany = affiliationCompany;
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
-	public String getFuelConsumption() {
-		return fuelConsumption;
+	public String getVehicleExamination() {
+		return vehicleExamination;
 	}
 
-	public void setFuelConsumption(String fuelConsumption) {
-		this.fuelConsumption = fuelConsumption;
+	public void setVehicleExamination(String vehicleExamination) {
+		this.vehicleExamination = vehicleExamination;
 	}
 
-	public Integer getAirConditioned() {
-		return airConditioned;
-	}
-
-	public void setAirConditioned(Integer airConditioned) {
-		this.airConditioned = airConditioned;
-	}
-
-	public Date getManufactureDate() {
-		return manufactureDate;
-	}
-
-	public void setManufactureDate(Date manufactureDate) {
-		this.manufactureDate = manufactureDate;
-	}
-
-	public Double getDrivingKm() {
-		return drivingKm;
-	}
-
-	public void setDrivingKm(Double drivingKm) {
-		this.drivingKm = drivingKm;
-	}
-
-	public String getBusNote() {
-		return busNote;
-	}
-
-	public void setBusNote(String busNote) {
-		this.busNote = busNote;
+	@Override
+	public String toString() {
+		return "BusInfo{" +
+				"id=" + id +
+				", line='" + line + '\'' +
+				", busLicense='" + busLicense + '\'' +
+				", brandCachet='" + brandCachet + '\'' +
+				", registrationNumber='" + registrationNumber + '\'' +
+				", engineNumber='" + engineNumber + '\'' +
+				", vehicleIdentification='" + vehicleIdentification + '\'' +
+				", seating=" + seating +
+				", recordDate='" + recordDate + '\'' +
+				", remarks='" + remarks + '\'' +
+				", vehicleExamination='" + vehicleExamination + '\'' +
+				'}';
 	}
 
 	@Override
 	protected Serializable pkVal() {
-		return null;
+		return this.id;
 	}
+
 }

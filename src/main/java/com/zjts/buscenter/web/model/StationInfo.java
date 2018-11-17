@@ -39,11 +39,14 @@ public class StationInfo extends Model<StationInfo> {
 	@TableField("station_name")
 	private String stationName;
     /**
-     * 站点Gps
+     * 经度
      */
-	@TableField("stiation_gps")
-	private String stiationGps;
-
+	@TableField("longitude")
+	private Double longitude;
+	/**
+	 * 维度
+	 */
+	private Double dimension;
 	/**
 	 * 站点索引
 	 */
@@ -107,12 +110,20 @@ public class StationInfo extends Model<StationInfo> {
 		this.stationName = stationName;
 	}
 
-	public String getStiationGps() {
-		return stiationGps;
+	public Double getLongitude() {
+		return longitude;
 	}
 
-	public void setStiationGps(String stiationGps) {
-		this.stiationGps = stiationGps;
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	public Double getDimension() {
+		return dimension;
+	}
+
+	public void setDimension(Double dimension) {
+		this.dimension = dimension;
 	}
 
 	public String getStationRemark() {

@@ -79,7 +79,7 @@ public class FaultInfoController extends BaseController {
         }
         try {
             BusInfo busInfo = busInfoService.selectOne(new EntityWrapper<BusInfo>().eq("id", id));
-            List<FaultInfo> faultList = faultInfoService.selectList(new EntityWrapper<FaultInfo>().eq("license_number", busInfo.getLicenseNumber()));
+            List<FaultInfo> faultList = faultInfoService.selectList(new EntityWrapper<FaultInfo>().eq("license_number", busInfo.getBusLicense()));
 
             if (faultList.size()<0&&faultList.equals(null)) {
                 return APIResponse.error(CodeEnum.FIND_NULL_ERROR);

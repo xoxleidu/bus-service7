@@ -77,7 +77,7 @@ public class MaintenanceInfoController extends BaseController {
         }
         try {
             BusInfo busInfo = busInfoService.selectById(new EntityWrapper<BusInfo>().eq("id", id));
-            List<MaintenanceInfo> maintenanceInfoList = maintenanceInfoService.selectList(new EntityWrapper<MaintenanceInfo>().eq("licenseNumber",busInfo.getLicenseNumber()));
+            List<MaintenanceInfo> maintenanceInfoList = maintenanceInfoService.selectList(new EntityWrapper<MaintenanceInfo>().eq("licenseNumber",busInfo.getBusLicense()));
 
 
             if (maintenanceInfoList.size()<0&&maintenanceInfoList.equals(null)) {
